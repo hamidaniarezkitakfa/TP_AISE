@@ -7,12 +7,16 @@
 #include <sys/reg.h>
 int main(int argc, char *argv[]) {
 printf("ensemble des appels systeme \n");
+printf("pid est : %d \n" , getpid());
+// crie un processus enfant
 pid_t pid = fork();
+
 if (pid < 0) {
 
 printf("fork failed");
 exit(-1);
 } else if (pid == 0) {
+
 
 // définir l'état du processus enfant sur PTRACE
 ptrace(PTRACE_TRACEME,0,NULL,NULL);
@@ -35,9 +39,8 @@ long ret;
 wait(&status);
 if(WIFEXITED(status))
 return 0;
-
 entre = ptrace(PTRACE_PEEKUSER, pid, ORIG_RAX * 8, NULL);
-printf("system call num = %ld\n", entre);
+printf("system call num = %ld \n", entre);
 ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
 while(1) {
 
@@ -49,6 +52,7 @@ if(bit) {
 
 entre = ptrace(PTRACE_PEEKUSER, pid, ORIG_RAX * 8, NULL);
 printf("system call num = %ld------", entre);
+
 bit = 0;
 } else {
  // pour le retour de l'appel système

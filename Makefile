@@ -9,8 +9,8 @@ trasse: ptrace.c
 	$(CC) $< -o $@
 
 run :  elf ptrace
-	 ./elf ./multi
-	./ptrace ./multi
+	 ./elf ./nbody0
+	./ptrace ./nbody0
 
 clean:
 	rm -f *.o ptrace elf
